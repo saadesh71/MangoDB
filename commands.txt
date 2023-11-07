@@ -4,8 +4,7 @@ db.Reviews.find({ "overall": { $in: [1, 3, 5] } },{ "summary": 1, "overall": 1, 
 //db.Reviews.find({$or:[{'overall': 1},{'overall': 3},{'overall': 5}]},{ "summary": 1, "overall": 1, "_id": 0 })
 
 //Question 2
-db.Reviews.find({$and: [{ "overall": { $gt: 1 } },{ "overall": { $lt: 3 } }]},{ "overall": 1, "reviewerName": 1,  "_id": 0 }).sort({ "reviewerName": 1 })
-
+db.Reviews.find({ "reviewerName":{$exists:true}, $and: [ {'overall': { $gt: 1}}, {'overall': { $lt: 3}}] }, { '_id': 0, 'reviewerName': 1, 'overall': 1 }).sort({'reviewerName':1})
 //Question 3
 db.Reviews.aggregate([{$group: {_id: "$reviewerName",minOverall: { $min: "$overall" }}}])
 
