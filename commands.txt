@@ -2,3 +2,16 @@
 db.Reviews.find({ "overall": { $in: [1, 3, 5] } },{ "summary": 1, "overall": 1, "_id": 0 })
 //using or operator
 //db.Reviews.find({$or:[{'overall': 1},{'overall': 3},{'overall': 5}]},{ "summary": 1, "overall": 1, "_id": 0 })
+
+//Question 2
+db.Reviews.find({$and: [{ "overall": { $gt: 1 } },{ "overall": { $lt: 3 } }]},{ "overall": 1, "reviewerName": 1,  "_id": 0 }).sort({ "reviewerName": 1 })
+
+//Question 3
+db.Reviews.aggregate([{$group: {_id: "$reviewerName",minOverall: { $min: "$overall" }}}])
+
+//Questions 4
+db.Reviews.aggregate([{$group: {_id: "$helpful",totalEntries: { $sum: 1 }}},{$sort: { totalEntries: -1 }}])
+
+//Question 5
+db.Reviews.find({reviewText: { $regex: /\d/ }}, { _id: 0, reviewText: 1 })
+
